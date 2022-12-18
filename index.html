@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate UUID</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+</head>
+<body>
+<label id="UUID">
+    Generate UUID
+    <input type="number" id="uuidNum" value="100" max="1000" placeholder="100"/> <input type="button" value="Generate"
+                                                                                        onclick="genV4();"/>
+</label>
+<label id="HASH">
+    Encrypt
+    <input type="text" id="toEncrypt" value="Definition of las in English Dictionary. 명사 (Noun)BFla · plural of la. 더 많은 예제. 문장 중간에 사용됨. This story of coal miners (John Wayne and ..." placeholder=""/> <input type="button" value="Generate"
+                                                                                        onclick="genHash();"/>
+</label>
+<div id="result">
+
+</div>
+
+<script>
+    function genV4() {
+        var val = document.querySelector("input[id='uuidNum']").value;
+        console.log("val >> " + val);
+        var limit = 0;
+        var rows = "";
+        while (val > limit) {
+            rows += uuidv4() + "<br/>";
+            limit++;
+        }
+        var result = document.querySelector("div[id='result']");
+        result.innerHTML = rows;
+    }
+
+
+    function genHash() {
+        var val = document.querySelector("input[id='toEncrypt']").value;
+        var hash = CryptoJS.SHA1(val);
+        var encHash = CryptoJS.enc.Hex.stringify(hash);
+        rows = "Result: " + encHash + "<br/>";
+        rows += "Length: " + encHash.length + "<br/>";
+        var result = document.querySelector("div[id='result']");
+        result.innerHTML = rows;
+    }
+
+    /*  function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }*/
+    function uuidv4() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    }
+
+    function guid() {
+        function _s4() {
+            return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+        }
+
+        return _s4() + _s4() + '-' + _s4() + '-' + _s4() + '-' + _s4() + '-' + _s4() + _s4() + _s4();
+    }
+</script>
+</body>
+</html>
